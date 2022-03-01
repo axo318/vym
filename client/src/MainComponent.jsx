@@ -8,8 +8,8 @@ const MainComponent = () => {
     const [value, setValue] = useState('');
 
     const getAllNumbers = useCallback(async () => {
-        const data = await axios.get('/api/values/all');
-        setValues(data.data.rows.map(row => row.number));
+        const axiosResponse = await axios.get('/api/values/all');
+        setValues(axiosResponse.data.map(row => row.number));
     }, []);
 
     const saveNumber = useCallback(async (event) => {
@@ -35,7 +35,7 @@ const MainComponent = () => {
             <button onClick={getAllNumbers}>Get all numbers</button><br/>
             <span className="title">Values</span>
             <div className="values">
-                {values.map((value => <div className="value"> value </div>))}
+                {values.map((v => <div className="value"> value {v} </div>))}
             </div>
             <form className="form" onSubmit={saveNumber}>
                 <label>Enter value</label>

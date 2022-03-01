@@ -32,14 +32,16 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/values/all', async(req: Request, res: Response) => {
     try{
         const values = await pgClient.query('SELECT * FROM values');
-        res.send(values);    
+        res.send(values.rows);    
     } catch (err) {
         res.send(500);
     }
 });
 
 app.post('/values', async(req: Request, res: Response) => {
-    if (!req.body.value) res.send({working: false});
+    if (!req.body.value) {
+        res.send({working: false});
+    }
 
     pgClient.query('INSERT INTO values(number) VALUES($1)', [req.body.value]);
     res.send({working: true});
