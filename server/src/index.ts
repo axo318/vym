@@ -1,15 +1,15 @@
-const keys = require('./keys');
+import {keys} from './keys';
+import {Pool} from 'pg';
 
 // Express app setup
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express, { Request, Response, Errback } from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const { Pool } = require('pg');
 const pgClient = new Pool({
     user: keys.pgUser,
     host: keys.pgHost,
@@ -25,11 +25,11 @@ pgClient.on('connect', (client) => {
 });
 
 // Express routes
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     res.send('Hi');
 });
 
-app.get('/values/all', async(req, res) => {
+app.get('/values/all', async(req: Request, res: Response) => {
     try{
         const values = await pgClient.query('SELECT * FROM values');
         res.send(values);    
@@ -38,7 +38,7 @@ app.get('/values/all', async(req, res) => {
     }
 });
 
-app.post('/values', async(req, res) => {
+app.post('/values', async(req: Request, res: Response) => {
     if (!req.body.value) res.send({working: false});
 
     pgClient.query('INSERT INTO values(number) VALUES($1)', [req.body.value]);
@@ -47,6 +47,6 @@ app.post('/values', async(req, res) => {
 
 
 // Listen
-app.listen(5000, err => {
-    console.log('Listening');
+app.listen(5000, () => {
+    console.log(`Listening`);
 });
