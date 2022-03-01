@@ -7,12 +7,7 @@
     "module": "commonjs",
     "rootDir": "src",
     "baseUrl": "src",
-    "paths": {
-      "@test/*": ["test/*"],
-      "@api/*": ["api/*"],
-      "@data-access/*": ["data-access/*"],
-      "@services/*": ["services/*"]
-    },
+    "paths": {},
     "resolveJsonModule": true,
     "allowJs": false,
     "outDir": "build",
